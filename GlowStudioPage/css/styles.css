@@ -1,0 +1,565 @@
+/* ==========================================================================
+   RESET Y VARIABLES GLOBALES
+========================================================================== */
+/* Reset básico para todos los elementos y pseudo-elementos */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+/* Definición de variables CSS (Custom Properties) en el root para fácil mantenimiento */
+:root{
+  /* Paleta de colores principal */
+  --rose-pastel:#E88BB9;    /* Rosa principal para acentos */
+  --lilac-pastel:#C8B9E8;   /* Lila secundario para fondos combinados */
+  --violet-pastel:#D9BFED;  /* Variante de violeta */
+  --cream:#F2F0E9;          /* Fondo crema claro (Light Mode) */
+  --carbon:#1A1A1A;         /* Negro suave para textos principales (Dark Mode) */
+  
+  /* Sistema de medidas */
+  --r:1.8rem;               /* Border-radius estándar para tarjetas y contenedores */
+  
+  /* Tipografías importadas de Google Fonts */
+  --ff-sans:'Plus Jakarta Sans',sans-serif; /* Tipografía base para UI y textos largos */
+  --ff-outfit:'Outfit',sans-serif;          /* Tipografía para títulos geométricos */
+  --ff-serif:'Cormorant Garamond',serif;    /* Tipografía elegante para detalles (itálicas) */
+  --ff-mono:'JetBrains Mono',monospace;     /* Tipografía monoespaciada para etiquetas y datos */
+}
+
+/* Habilita el desplazamiento suave nativo al hacer click en anclas (ej: #s1, #s2) */
+html{scroll-behavior:smooth}
+
+/* Estilos base del documento */
+body{
+  background:var(--cream);color:var(--carbon);
+  font-family:var(--ff-sans);overflow-x:hidden;
+  cursor:none /* Oculta el cursor nativo para usar el cursor personalizado de JS */
+}
+
+/* Pseudo-elemento para aplicar una textura o ruido de fondo a toda la página */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.042;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px
+}
+
+/* Estilos de la barra de desplazamiento (Scrollbar) en webkit */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--cream)}
+::-webkit-scrollbar-thumb{background:var(--lilac-pastel);border-radius:99px}
+
+
+/* ==========================================================================
+   CURSOR PERSONALIZADO ANIMADO
+========================================================================== */
+/* Posicionamiento base para el circulo interno (dot) y anillo (ring) */
+.cur-dot,.cur-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%)}
+/* Punto central del cursor */
+.cur-dot{width:7px;height:7px;background:var(--rose-pastel)}
+/* Anillo exterior animado */
+.cur-ring{width:34px;height:34px;border:1.5px solid var(--lilac-pastel);transition:all .18s cubic-bezier(.25,.46,.45,.94)}
+
+/* Efecto cuando el cursor pasa por encima de enlaces o botones (Aumento de tamaño) */
+body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{
+  transform:translate(-50%,-50%) scale(1.9);border-color:var(--rose-pastel)
+}
+
+
+/* ==========================================================================
+   BARRA DE NAVEGACIÓN (NAVBAR)
+========================================================================== */
+/* Estilos por defecto del navbar transparente y flotante */
+#navbar{
+  position:fixed;top:1.4rem;left:50%;transform:translateX(-50%);z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;gap:2rem;
+  padding:.75rem 1.6rem;border-radius:100px;background:transparent;
+  transition:all .5s cubic-bezier(.25,.46,.45,.94);width:min(92vw,1000px)
+}
+/* Clase '.scrolled' añadida por JS cuando bajamos; oscurece y difumina el fondo (Glassmorphism) */
+#navbar.scrolled{
+  background:rgba(242,240,233,.88);backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid rgba(200,185,232,.13);box-shadow:0 8px 32px rgba(26,26,26,.08)
+}
+
+/* El logo contiene el recuadro colorido y el nombre de la empresa */
+.nav-logo{display:flex;align-items:center;gap:.5rem;text-decoration:none}
+.nav-logo-mark{
+  width:30px;height:30px;background:var(--rose-pastel);border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-serif);font-style:italic;font-size:1rem;
+  color:white;font-weight:600;transition:background .4s;flex-shrink:0
+}
+/* Al hacer scroll, la G del logo cambia su color base */
+#navbar.scrolled .nav-logo-mark{background:var(--lilac-pastel)}
+
+/* Texto del Logo */
+.nav-logo-text{
+  font-family:var(--ff-serif);font-size:1.05rem;font-weight:600;
+  color:white;letter-spacing:.02em;transition:color .4s;white-space:nowrap
+}
+#navbar.scrolled .nav-logo-text{color:var(--lilac-pastel)}
+
+/* Contenedor Flex de los enlaces de menú */
+.nav-links{display:flex;gap:1.6rem;list-style:none}
+/* Estilo base de cada link en el menu */
+.nav-links a{
+  font-size:.72rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;
+  color:rgba(255,255,255,.82);text-decoration:none;transition:color .3s;
+  cursor:none;white-space:nowrap
+}
+/* Cambio de contraste al hacer scroll (links blancos a links oscuros) */
+#navbar.scrolled .nav-links a{color:var(--carbon)}
+.nav-links a:hover{color:var(--rose-pastel)}
+
+/* Botón flotante 'Reservar' a la derecha del todo en Navbar */
+.nav-cta{
+  padding:.56rem 1.3rem;border-radius:100px;
+  background:var(--rose-pastel);color:white;
+  font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  text-decoration:none;cursor:none;position:relative;overflow:hidden;transition:transform .2s;white-space:nowrap
+}
+/* Efecto hover: fondo que se desliza (-101% a 0%) dentro del botón */
+.nav-cta::before{
+  content:'';position:absolute;inset:0;background:var(--lilac-pastel);
+  transform:translateX(-101%);transition:transform .36s cubic-bezier(.25,.46,.45,.94)
+}
+.nav-cta:hover::before{transform:translateX(0)}
+.nav-cta span{position:relative;z-index:1}
+.nav-cta:hover{transform:scale(1.04)}
+
+/* Hamburguesa para móviles (tres líneas) */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:none;padding:.3rem}
+.hamburger span{display:block;width:22px;height:2px;background:white;border-radius:2px;transition:all .35s}
+#navbar.scrolled .hamburger span{background:var(--carbon)}
+
+
+/* ==========================================================================
+   SISTEMA DE BOTONES GLOBALES (.btn)
+========================================================================== */
+/* Clase general compartida para botones redondos interactivos */
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;border-radius:100px;
+  font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  text-decoration:none;border:none;cursor:none;position:relative;overflow:hidden;transition:transform .2s
+}
+/* Animación de barrido en Hover (sweep fill effect) usando pseudoelemento ::before */
+.btn::before{
+  content:'';position:absolute;inset:0;transform:translateX(-101%);
+  transition:transform .38s cubic-bezier(.25,.46,.45,.94)
+}
+.btn:hover::before{transform:translateX(0)}.btn:hover{transform:scale(1.04)}
+/* El contenido del botón debe quedar sobre (z-index 1) el layer dinámico base */
+.btn span,.btn svg{position:relative;z-index:1}
+
+/* Modificadores de estética para distintos botones */
+.btn-primary{background:var(--rose-pastel);color:white}
+.btn-primary::before{background:var(--lilac-pastel)}
+
+.btn-outline-w{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.35)}
+.btn-outline-w:hover{border-color:white}
+
+.btn-moss{background:var(--lilac-pastel);color:white}
+.btn-moss::before{background:var(--violet-pastel)}
+
+.btn-outline-m{background:transparent;color:var(--lilac-pastel);border:1.5px solid rgba(200,185,232,.3)}
+.btn-outline-m::before{background:var(--lilac-pastel)}.btn-outline-m:hover{color:white}
+
+.btn-wa{background:var(--lilac-pastel);color:white}
+.btn-wa::before{background:#25D366}
+
+.btn-cal{background:var(--rose-pastel);color:white;font-size:.88rem;padding:1rem 2.4rem}
+.btn-cal::before{background:var(--lilac-pastel)}
+
+
+/* ==========================================================================
+   TIPOGRAFÍA ESTRUCTURAL: ETIQUETAS Y TÍTULOS
+========================================================================== */
+/* Etiqueta subtitular monoespaciada minúscula antes de los encabezados ('Kicker') */
+.sec-label{
+  font-family:var(--ff-mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--rose-pastel);display:flex;align-items:center;gap:.6rem;margin-bottom:1rem
+}
+/* Añade una línea decorativa junto a la etiqueta secundaria */
+.sec-label::before{content:'';display:inline-block;width:22px;height:1px;background:var(--rose-pastel)}
+
+/* Encabezados h2 principales genéricos con tipografía display 'Outfit' */
+.sec-title{
+  font-family:var(--ff-outfit);font-size:clamp(2rem,4.5vw,3.4rem);font-weight:800;
+  color:var(--carbon);letter-spacing:-.03em;line-height:1.08;margin-bottom:0
+}
+/* Modifica ciertas palabras para que destaquen en cursiva elegante (Garamond) */
+.sec-title em{font-family:var(--ff-serif);font-style:italic;font-weight:300;color:var(--lilac-pastel)}
+
+/* Variante blanca para títulos que van montados en fondos negros o muy oscuros */
+.sec-title-w{color:var(--cream)}.sec-title-w em{color:rgba(242,240,233,.45)}
+
+
+/* ==========================================================================
+   UTILIDADES & ANIMACIÓN (GSAP)
+========================================================================== */
+/* .reveal es el estado INICIAL (invisible y abajo) que el código JS animará a su posición final */
+.reveal{opacity:0;transform:translateY(36px)}
+
+
+/* ==========================================================================
+   S1: HERO (ENCABEZADO DE PANTALLA COMPLETA)
+========================================================================== */
+#s1{min-height:100dvh;position:relative;overflow:hidden}
+.hero-wrap{height:100dvh;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;overflow:hidden}
+/* Fondo fotográfico con cubierta oscura */
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1560066984-138daaa7b97e?w=1800&q=85&fit=crop') center/cover no-repeat}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(200,185,232,.82) 0%,rgba(26,26,26,.92) 100%)}
+.hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:1.1rem;padding:0 2rem}
+
+.hero-eyebrow{font-family:var(--ff-mono);font-size:.67rem;letter-spacing:.25em;text-transform:uppercase;color:var(--rose-pastel);display:flex;align-items:center;gap:.6rem;opacity:0}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:inline-block;width:20px;height:1px;background:var(--rose-pastel)}
+.hero-sym{width:68px;height:68px;border-radius:16px;background:rgba(232,139,185,.15);border:1.5px solid rgba(232,139,185,.4);display:flex;align-items:center;justify-content:center;font-family:var(--ff-serif);font-style:italic;font-size:2.2rem;font-weight:600;color:var(--cream);opacity:0}
+.hero-h1{font-family:var(--ff-sans);font-size:clamp(2.8rem,7vw,5.8rem);font-weight:800;color:white;letter-spacing:-.03em;line-height:1;opacity:0}
+.hero-h1 em{font-family:var(--ff-serif);font-style:italic;font-weight:300;color:var(--cream);display:block;font-size:1.12em}
+.hero-sub{font-size:clamp(.9rem,1.5vw,1.04rem);color:rgba(242,240,233,.63);max-width:470px;line-height:1.72;opacity:0}
+.hero-acts{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;opacity:0}
+
+/* Elemento visual inferior 'Scroll down' animado rítmicamente (keyframes sb) */
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:.4rem;color:rgba(255,255,255,.28);font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase}
+.scroll-bar{width:1px;height:48px;background:linear-gradient(to bottom,rgba(255,255,255,.38),transparent);animation:sb 2s ease-in-out infinite}
+@keyframes sb{0%,100%{opacity:.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(.65)}}
+
+
+/* ==========================================================================
+   BANDA DE INTRODUCCIÓN Y HORARIOS DE OPERACIÓN
+========================================================================== */
+.intro-strip{background:var(--cream);padding:5rem 6vw;display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:2.5rem;align-items:start}
+/* Tag inicial 'Bienvenidos' */
+.intro-pretag{font-family:var(--ff-mono);font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--rose-pastel);display:flex;align-items:center;gap:.5rem;margin-bottom:.9rem}
+.intro-pretag::before{content:'';display:inline-block;width:18px;height:1px;background:var(--rose-pastel)}
+.intro-heading{font-family:var(--ff-outfit);font-size:clamp(1.55rem,3vw,2.3rem);font-weight:700;color:var(--carbon);letter-spacing:-.02em;line-height:1.15;margin-bottom:1.1rem}
+.intro-heading em{font-family:var(--ff-serif);font-style:italic;color:var(--lilac-pastel)}
+.intro-text{font-size:.9rem;line-height:1.76;color:rgba(26,26,26,.6);margin-bottom:.8rem}
+
+/* Contenedor de la pequeña imagen ilustrativa introductoria */
+.intro-img{border-radius:var(--r);overflow:hidden;height:370px;box-shadow:0 20px 50px rgba(26,26,26,.12)}
+/* Transición fotográfica suave (scale a 1.05) */
+.intro-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.46,.45,.94)}
+.intro-img:hover img{transform:scale(1.05)}
+
+/* Caja lateral que resume la disponibilidad del negocio */
+.horarios-box{background:var(--lilac-pastel);border-radius:var(--r);padding:2rem}
+.hor-title{font-family:var(--ff-outfit);font-size:.95rem;font-weight:700;color:var(--cream);margin-bottom:1.4rem;display:flex;align-items:center;gap:.5rem}
+.hor-row{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;border-bottom:1px solid rgba(242,240,233,.09);font-size:.83rem}
+.hor-row:last-child{border-bottom:none}
+.hor-day{font-weight:500;color:rgba(242,240,233,.78)}
+.hor-time{font-family:var(--ff-mono);font-size:.73rem;color:var(--rose-pastel);letter-spacing:.04em}
+.hor-off{color:rgba(242,240,233,.28);font-style:italic;font-size:.78rem}
+
+/* Píldora de estado (Abierto Ahora) con punto palpitante animado mediante la función gp */
+.status-pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.22);border-radius:100px;padding:.32rem .75rem;font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.12em;color:rgba(74,222,128,.88);text-transform:uppercase;margin-top:1.4rem}
+.status-pill::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:#4ade80;animation:gp 2s ease-in-out infinite;flex-shrink:0}
+@keyframes gp{0%,100%{opacity:1}50%{opacity:.25}}
+
+
+/* ==========================================================================
+   S2: SISTEMA DE TARJETAS DE SERVICIOS
+========================================================================== */
+#s2{padding:8rem 6vw;background:white}
+/* Grid responsivo adaptado en 3 columnas en desktop que envolverá a 'svc-card' */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3.5rem}
+
+/* Cada tarjeta tiene su propio border, fondo crema y animación sutil de levitación hacia arriba al hacer :hover */
+.svc-card{
+  background:var(--cream);border-radius:var(--r);padding:2.3rem;position:relative;
+  overflow:hidden;cursor:none;transition:transform .35s cubic-bezier(.25,.46,.45,.94),box-shadow .35s
+}
+/* Al sobrevolar la tarjeta (hover) aparece una fina barra en su borde inferior (::after scaleX de 0 a 1) */
+.svc-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:var(--rose-pastel);transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.25,.46,.45,.94)
+}
+.svc-card:hover::after{transform:scaleX(1)}
+.svc-card:hover{transform:translateY(-7px);box-shadow:0 28px 56px rgba(26,26,26,.09)}
+
+/* Card 'destacada' o Highlight (.hl) se define con un fondo distinto al resto */
+.svc-card.hl{background:var(--lilac-pastel)}
+
+/* Ajuste de detalles tipográficos de cada componente interno de servicios */
+.svc-icon{font-size:1.9rem;margin-bottom:1.4rem;display:block}
+.svc-num{font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.18em;color:rgba(26,26,26,.28);margin-bottom:.45rem}
+.svc-card.hl .svc-num{color:rgba(242,240,233,.32)}
+.svc-name{font-family:var(--ff-outfit);font-size:1.12rem;font-weight:700;color:var(--carbon);letter-spacing:-.01em;margin-bottom:.65rem}
+.svc-card.hl .svc-name{color:var(--cream)}
+.svc-text{font-size:.84rem;line-height:1.65;color:rgba(26,26,26,.52)}
+.svc-card.hl .svc-text{color:rgba(242,240,233,.62)}
+
+
+/* ==========================================================================
+   S3: GALERÍA DE PORTFOLIO
+========================================================================== */
+#s3{padding:8rem 6vw;background:var(--cream)}
+/* Grid asimétrico (estilo bloque modular) */
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:3.5rem}
+
+/* Formato general para los huecos de la fotogalería (Aspect ratio estándar 4:3 para consistencia visual) */
+.gal-item{border-radius:var(--r);overflow:hidden;position:relative;cursor:none;aspect-ratio:4/3}
+/* Amplia los ítems específicos obligándolos a rellenar 2 columnas y cambia su proporción para variar */
+.gal-item:nth-child(1){grid-column:span 2;aspect-ratio:16/9}
+.gal-item:nth-child(5){grid-column:span 2;aspect-ratio:16/9}
+/* Las fotos crecen internamente en hover */
+.gal-item img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.25,.46,.45,.94)}
+.gal-item:hover img{transform:scale(1.08)}
+
+/* Capa oscura decorativa que aparece desde el fondo .gal-ov cuando reposas la flecha sobre un gal-item */
+.gal-ov{
+  position:absolute;inset:0;background:linear-gradient(to top,rgba(26,26,26,.72) 0%,transparent 55%);
+  opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:1.4rem
+}
+.gal-item:hover .gal-ov{opacity:1}
+.gal-label{font-family:var(--ff-mono);font-size:.63rem;letter-spacing:.14em;color:rgba(242,240,233,.85);text-transform:uppercase}
+
+/* Shimmer Effect: Un rápido destello "vidrioso" blanco horizontal (.gal-item::before) al pasar el puntero */
+.gal-item::before{
+  content:'';position:absolute;inset:0;z-index:2;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.2) 50%,transparent 60%);
+  transform:translateX(-110%);transition:transform .65s cubic-bezier(.25,.46,.45,.94);pointer-events:none
+}
+.gal-item:hover::before{transform:translateX(220%)}
+
+
+/* ==========================================================================
+   S4: FILOSOFÍA CORPORATIVA
+========================================================================== */
+#s4{padding:8rem 6vw;background:var(--carbon);border-radius:2.5rem 2.5rem 0 0}
+/* División en dos marcos principales separados a través del CSS Grid */
+.phil-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;margin-top:3rem}
+
+/* Cita (Quote) o filosofía visual usando la tipografía sofisticada "Cormorant" */
+.phil-quote{font-family:var(--ff-serif);font-style:italic;font-size:clamp(1.7rem,3.2vw,2.8rem);font-weight:300;color:rgba(242,240,233,.2);line-height:1.32;margin-bottom:2.2rem}
+.phil-quote strong{color:var(--cream);font-weight:400}
+.phil-text{font-size:.93rem;line-height:1.78;color:rgba(242,240,233,.56);margin-bottom:1.2rem}
+/* Grupo de viñetas con beneficios y valores .phil-values */
+.phil-values{display:flex;flex-direction:column;gap:.75rem;margin:1.8rem 0 2.2rem}
+.phil-val{display:flex;align-items:center;gap:.75rem;font-size:.87rem;color:rgba(242,240,233,.68)}
+/* Viñeta customizada renderizada desde CSS al listado de la filosofía. Usa '✦' en color claro */
+.phil-val::before{content:'✦';color:var(--rose-pastel);font-size:.58rem;flex-shrink:0}
+
+/* Encare de imagen con el contenedor estilo 'medalla' (.phil-badge) encima indicando localía */
+.phil-img{border-radius:var(--r);overflow:hidden;height:490px;position:relative}
+.phil-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.25,.46,.45,.94)}
+.phil-img:hover img{transform:scale(1.04)}
+.phil-badge{
+  position:absolute;bottom:1.4rem;left:1.4rem;background:rgba(242,240,233,.09);
+  backdrop-filter:blur(12px);border:1px solid rgba(242,240,233,.13);border-radius:100px;
+  padding:.45rem .95rem;font-family:var(--ff-mono);font-size:.6rem;
+  letter-spacing:.12em;color:rgba(242,240,233,.65);text-transform:uppercase
+}
+
+
+/* ==========================================================================
+   S5: EQUIPO FUNDADOR
+========================================================================== */
+#s5{padding:8rem 6vw;background:var(--carbon)}
+.fnd-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.2rem;margin-top:3.8rem}
+/* Card estilo retrato con gradiente de transparencia interna en hover */
+.fnd-card{
+  background:rgba(242,240,233,.04);border:1px solid rgba(242,240,233,.07);border-radius:var(--r);
+  overflow:hidden;cursor:none;transition:transform .4s cubic-bezier(.25,.46,.45,.94),box-shadow .4s
+}
+.fnd-card:hover{transform:translateY(-8px);box-shadow:0 32px 64px rgba(0,0,0,.3)}
+.fnd-img-wrap{height:370px;overflow:hidden;position:relative}
+.fnd-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .6s cubic-bezier(.25,.46,.45,.94)}
+.fnd-card:hover .fnd-img-wrap img{transform:scale(1.06)}
+
+/* Transición vertical en degradado desde la zona baja (.fnd-grad) a transparente arriba para las letras de la píldora (.fnd-role) */
+.fnd-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(200,185,232,.88) 0%,transparent 52%)}
+/* Píldora de puesto laboral para cada fundadora usando filter CSS (frost glass). */
+.fnd-role{
+  position:absolute;bottom:1.3rem;left:1.3rem;font-family:var(--ff-mono);
+  font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,240,233,.78);
+  background:rgba(200,185,232,.5);backdrop-filter:blur(8px);padding:.36rem .75rem;border-radius:100px
+}
+
+/* Espacio descriptivo del perfil de la profesional */
+.fnd-body{padding:1.8rem 2rem 2.1rem}
+.fnd-name{font-family:var(--ff-outfit);font-size:1.45rem;font-weight:700;color:var(--cream);letter-spacing:-.02em;margin-bottom:.18rem}
+.fnd-spec{font-family:var(--ff-serif);font-style:italic;font-size:.92rem;color:var(--rose-pastel);margin-bottom:.95rem}
+.fnd-bio{font-size:.84rem;line-height:1.7;color:rgba(242,240,233,.52);margin-bottom:1.6rem}
+
+/* Botones modulares integrados en perfil para redirigir a los portafolios personales (.soc-btn) */
+.fnd-socials{display:flex;gap:.7rem;flex-wrap:wrap}
+.soc-btn{
+  display:inline-flex;align-items:center;gap:.45rem;padding:.5rem 1rem;
+  border-radius:100px;font-size:.72rem;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;text-decoration:none;border:1.5px solid rgba(242,240,233,.13);
+  color:rgba(242,240,233,.6);cursor:none;transition:all .3s;position:relative;overflow:hidden
+}
+/* Un pseudo::before se desliza (wipe-fill) entregando su color de marca (.fb, .ig) */
+.soc-btn::before{content:'';position:absolute;inset:0;transform:translateX(-101%);transition:transform .36s cubic-bezier(.25,.46,.45,.94)}
+.soc-btn:hover::before{transform:translateX(0)}.soc-btn:hover{color:white;border-color:transparent}
+.soc-btn span{position:relative;z-index:1;display:flex;align-items:center;gap:.4rem}
+.soc-btn.fb::before{background:#1877F2}
+.soc-btn.ig::before{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+.soc-btn.wa::before{background:#25D366}
+
+
+/* ==========================================================================
+   S6: CITA / RESERVA
+========================================================================== */
+#s6{padding:8rem 6vw;background:var(--cream);border-radius:0 0 2.5rem 2.5rem}
+.rsv-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-top:1.2rem}
+.rsv-desc{font-size:.95rem;line-height:1.76;color:rgba(26,26,26,.63);margin-top:1.2rem;max-width:430px}
+
+/* Bloque contenedor de los pasos de reserva visual */
+.rsv-steps{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.rsv-step{display:flex;align-items:flex-start;gap:.9rem;padding:1rem 1.2rem;background:white;border-radius:1rem;border:1px solid rgba(200,185,232,.08)}
+/* Insignia numérica rosa circular en cada paso de cita */
+.rsv-n{
+  font-family:var(--ff-mono);font-size:.62rem;width:23px;height:23px;border-radius:50%;
+  background:var(--rose-pastel);color:white;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;margin-top:.08rem
+}
+.rsv-t{font-size:.86rem;line-height:1.55;color:rgba(26,26,26,.63)}
+.rsv-t strong{display:block;color:var(--carbon);font-weight:600;margin-bottom:.12rem;font-size:.88rem}
+.rsv-note{font-family:var(--ff-mono);font-size:.68rem;letter-spacing:.07em;color:rgba(26,26,26,.38);margin-top:1.4rem;line-height:1.65}
+.rsv-img{border-radius:var(--r);overflow:hidden;height:480px}
+.rsv-img img{width:100%;height:100%;object-fit:cover}
+
+
+/* ==========================================================================
+   S7: SECCIÓN DE CONTACTO
+========================================================================== */
+#s7{padding:8rem 6vw;background:white}
+.ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:4rem;align-items:start}
+
+/* Box con iframe de Google maps (.map-wrap) */
+.map-wrap{border-radius:var(--r);overflow:hidden;height:420px;box-shadow:0 16px 48px rgba(26,26,26,.1);position:relative}
+.map-wrap iframe{width:100%;height:100%;border:none}
+/* Etiqueta del mapa o tooltip ('map-chip') posicional en la esquina superior izquierda */
+.map-chip{
+  position:absolute;top:1.1rem;left:1.1rem;background:white;border-radius:100px;
+  padding:.55rem .95rem;display:flex;align-items:center;gap:.45rem;font-size:.78rem;
+  font-weight:600;color:var(--carbon);box-shadow:0 4px 16px rgba(26,26,26,.1);z-index:5
+}
+
+/* Panel descriptivo de datos de contacto a la derecha */
+.ct-block{margin-bottom:2.3rem}
+.ct-block-title{font-family:var(--ff-outfit);font-size:.95rem;font-weight:700;color:var(--carbon);margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem}
+.ct-block-title::before{content:'';display:inline-block;width:3px;height:17px;background:var(--rose-pastel);border-radius:2px}
+.ct-item{display:flex;align-items:center;gap:.65rem;font-size:.88rem;color:rgba(26,26,26,.63);margin-bottom:.6rem}
+
+/* Botones genéricos estilo cápsula secundaria (Con bordes solidos predefinidos .csoc-btn) */
+.ct-soc-row{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.3rem}
+.csoc-btn{
+  display:inline-flex;align-items:center;gap:.45rem;padding:.55rem 1.1rem;border-radius:100px;
+  font-size:.76rem;font-weight:600;text-decoration:none;cursor:none;transition:all .3s;
+  position:relative;overflow:hidden;white-space:nowrap
+}
+.csoc-btn::before{content:'';position:absolute;inset:0;transform:translateX(-101%);transition:transform .36s cubic-bezier(.25,.46,.45,.94)}
+.csoc-btn:hover::before{transform:translateX(0)}.csoc-btn:hover{color:white}
+.csoc-btn span{position:relative;z-index:1;display:flex;align-items:center;gap:.4rem}
+.csoc-btn.fb-c{background:rgba(24,119,242,.09);color:#1877F2;border:1.5px solid rgba(24,119,242,.18)}.csoc-btn.fb-c::before{background:#1877F2}
+.csoc-btn.ig-c{background:rgba(220,39,67,.07);color:#dc2743;border:1.5px solid rgba(220,39,67,.18)}.csoc-btn.ig-c::before{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+
+
+/* ==========================================================================
+   FOOTER (ZONA DE ENLACES EXTERNOS MÓDULO FINAL)
+========================================================================== */
+footer{background:var(--carbon);border-radius:2.5rem 2.5rem 0 0;padding:5rem 6vw 2.5rem;margin-top:6rem;position:relative;overflow:hidden}
+/* Textura de fondo SVG muy leve incrustada al pie de página (.footer::before) */
+footer::before{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:.024;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px
+}
+.ft-top{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:4rem;margin-bottom:4rem;position:relative;z-index:1}
+.ft-logo{font-family:var(--ff-serif);font-size:1.75rem;font-weight:600;color:var(--cream);letter-spacing:.02em;display:block;margin-bottom:.75rem}
+.ft-tagline{font-family:var(--ff-serif);font-style:italic;font-size:.92rem;color:rgba(242,240,233,.35);line-height:1.65;margin-bottom:1.7rem;max-width:275px}
+.ft-status{
+  display:inline-flex;align-items:center;gap:.45rem;background:rgba(242,240,233,.04);
+  border:1px solid rgba(242,240,233,.07);border-radius:100px;padding:.4rem .85rem;
+  font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.12em;
+  color:rgba(242,240,233,.38);text-transform:uppercase
+}
+.ft-status::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:#4ade80;animation:gp 2s ease-in-out infinite}
+
+/* Enlaces por columnas organizadas en el Top (.ft-col) */
+.ft-col h4{font-family:var(--ff-outfit);font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(242,240,233,.32);margin-bottom:1.3rem}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.ft-col ul a{font-size:.86rem;color:rgba(242,240,233,.58);text-decoration:none;transition:color .3s;cursor:none}
+.ft-col ul a:hover{color:var(--rose-pastel)}
+
+/* Pie puramente tipográfico del Copyright (.ft-bottom) */
+.ft-bottom{
+  border-top:1px solid rgba(242,240,233,.07);padding-top:1.8rem;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1rem;position:relative;z-index:1
+}
+.ft-copy{font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.08em;color:rgba(242,240,233,.2)}
+
+/* Mini íconos de las redes sociales del pie en forma de círculo transparente (.fsoc) */
+.ft-soc{display:flex;gap:.65rem}
+.fsoc{
+  width:33px;height:33px;border-radius:50%;border:1px solid rgba(242,240,233,.1);
+  display:flex;align-items:center;justify-content:center;color:rgba(242,240,233,.32);
+  text-decoration:none;transition:all .3s;cursor:none
+}
+.fsoc:hover{border-color:var(--rose-pastel);color:var(--rose-pastel)}
+
+
+/* ==========================================================================
+   WIDGET FLOTANTE WHATSAPP (BOTÓN PRINCIPAL INFERIOR DERECHO)
+========================================================================== */
+.wa-float{
+  position:fixed;bottom:2rem;right:2rem;z-index:2000;
+  width:56px;height:56px;border-radius:50%;background:#25D366;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(37,211,102,.4);text-decoration:none;
+  cursor:none;transition:transform .3s cubic-bezier(.25,.46,.45,.94),box-shadow .3s;
+  /* La animación natural de botar para atraer sutilmente la atención ocurre intermitentemente */
+  animation:wab 3.5s ease-in-out infinite 2s
+}
+.wa-float:hover{transform:scale(1.15);box-shadow:0 12px 32px rgba(37,211,102,.6)}
+.wa-float svg{width:26px;height:26px;fill:white}
+/* Pulso decorativo verde rodeando el ícono flotante - animación 'wap' */
+.wa-pulse{position:absolute;inset:0;border-radius:50%;border:2px solid #25D366;animation:wap 2s ease-out infinite}
+
+/* Funciones o llaves maestras de movimiento de las animaciones */
+@keyframes wap{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(1.85)}}
+@keyframes wab{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+
+/* ==========================================================================
+   REGLAS DE RESPONSIVE (MEDIA QUERIES) PANTALLAS PEQUEÑAS
+========================================================================== */
+/* Dispositivos en el rango 'Tablet' o anchos de formato medio (<900px) */
+@media(max-width:900px){
+  /* Se esconde el menu desktop y activa el icono Hamburguesa */
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  
+  /* El formato 'open' reescala el menú para usar toda el viewport lateral */
+  .nav-links.open{
+    display:flex;flex-direction:column;position:fixed;top:0;left:0;right:0;
+    background:rgba(242,240,233,.97);backdrop-filter:blur(20px);padding:5rem 2rem 3rem;
+    gap:1.5rem;z-index:999
+  }
+  .nav-links.open a{font-size:1rem;color:var(--carbon)}
+  
+  /* Reflow de las grillas mayores a menos columnas (Apilado vertical de 1 ó 2 col) */
+  .intro-strip{grid-template-columns:1fr;gap:2rem}.intro-img{height:250px}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .gallery-grid{grid-template-columns:1fr 1fr}
+  .gal-item:nth-child(1),.gal-item:nth-child(5){grid-column:span 2}
+  .phil-grid{grid-template-columns:1fr;gap:3rem}.phil-img{height:280px}
+  .fnd-grid{grid-template-columns:1fr}
+  .rsv-grid{grid-template-columns:1fr}.rsv-img{height:260px}
+  .ct-grid{grid-template-columns:1fr}
+  .ft-top{grid-template-columns:1fr;gap:2.5rem}
+  
+  /* El footer redistribuye el aviso inferior a una sola columna de alineado textual centrado */
+  .ft-bottom{flex-direction:column;text-align:center}
+}
+
+/* Teléfonos y pantallas muy compactas (<560px) */
+@media(max-width:560px){
+  /* Reducción absoluta a sistema Flex de una (1) columna completa (1fr) */
+  .svc-grid{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:1fr}
+  /* Reducción del factor Aspect-Ratio del grid de la fotogalería */
+  .gal-item:nth-child(1),.gal-item:nth-child(5){grid-column:span 1;aspect-ratio:4/3}
+}

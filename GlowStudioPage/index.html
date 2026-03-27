@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<!-- Declaración del tipo de documento HTML5 -->
+<html lang="es">
+<head>
+<!-- Metadatos y configuración básica -->
+<meta charset="UTF-8">
+<!-- Configuración del Viewport para diseño Responsive en dispositivos móviles -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glow Studio | by Serguey Angelis</title>
+
+<!-- Pre-conexión a los servidores de fuentes web para mejorar la velocidad de carga -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Importación de fuentes tipográficas estilizadas desde Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- Enlace a la hoja de estilos principal -->
+<link rel="stylesheet" href="css/styles.css">
+
+<!-- Librerías JS externas: GSAP para animaciones avanzadas y ScrollTrigger para animar según el scroll -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+<!-- Elementos visuales customizados que reemplazan el puntero clásico del ratón -->
+<div class="cur-dot" id="curDot"></div>
+<div class="cur-ring" id="curRing"></div>
+
+<!-- ==========================================
+     Botón Flotante interactivo de WhatsApp 
+=========================================== -->
+<a href="https://wa.me/5491100000000" class="wa-float" target="_blank" title="WhatsApp Glow Studio">
+  <!-- Círculo animado que genera efecto de 'pulso' detrás del ícono -->
+  <div class="wa-pulse"></div>
+  <!-- SVG (Gráfico Vectorial) del logo optimizado y sin dependencias externas -->
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- ══════════════════════════════════
+     SECCIÓN 1: HEADER + HERO + INTRO
+══════════════════════════════════ -->
+<section id="s1">
+
+  <!-- =====================================
+       BARRA DE NAVEGACIÓN PRINCIPAL (NAVBAR)
+  ====================================== -->
+  <!-- ID 'navbar' usado en JS para controlar la animación del color de fondo al hacer scroll -->
+  <nav id="navbar">
+    <!-- Logotipo que actúa como enlace a la sección de inicio -->
+    <a href="#s1" class="nav-logo">
+      <div class="nav-logo-mark">G</div>
+      <span class="nav-logo-text">Glow Studio</span>
+    </a>
+    <!-- Menú de enlaces de navegación que hacen scroll suave a cada sección (#id) -->
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#s1">Inicio</a></li>
+      <li><a href="#s2">Servicios</a></li>
+      <li><a href="#s4">Nosotros</a></li>
+      <li><a href="#s3">Galería</a></li>
+      <li><a href="#s6">Reservar</a></li>
+      <li><a href="#s7">Contacto</a></li>
+    </ul>
+    <!-- Botón CTA (Call To Action) destacado en el extremo derecho en pantallas grandes -->
+    <a href="#s6" class="nav-cta"><span>Reservar →</span></a>
+    <!-- Botón tipo 'Hamburguesa' para desplegar el menú en dispositivos móviles. 
+         Los tres 'span' conforman las tres líneas horizontales que se transforman en 'X' al abrirse. -->
+    <button class="hamburger" id="hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- =====================================
+       SECCIÓN HERO (PANALLA INICIAL)
+  ====================================== -->
+  <!-- Envoltorio contenedor principal de altura completa (100vh) -->
+  <div class="hero-wrap">
+    <!-- Capa que contiene la imagen fotográfica de fondo -->
+    <div class="hero-bg"></div>
+    <!-- Capa de superposición oscura (overlay) para mejorar la lecturabilidad del texto superpuesto -->
+    <div class="hero-overlay"></div>
+    <!-- Contenedor centralizado para el contenido textual del Hero -->
+    <div class="hero-inner">
+      <!-- Elemento visual primario o etiqueta introductoria ('Eyebrow term') -->
+      <div class="hero-eyebrow" id="hEye">Buenos Aires · Salón de Belleza Premium</div>
+      <!-- Símbolo o monograma decorativo -->
+      <div class="hero-sym" id="hSym">G</div>
+      <!-- Título principal de la página (H1), importante para la jerarquía SEO -->
+      <h1 class="hero-h1" id="hTitle">
+        Glow Studio
+        <em>by Serguey Angelis</em>
+      </h1>
+      <!-- Párrafo descriptivo o eslogan secundario -->
+      <p class="hero-sub" id="hSub">Tu espacio de belleza y bienestar en Buenos Aires. Donde cada visita es una experiencia de transformación.</p>
+      <!-- Contenedor flex para agrupar los botones de acción del Hero -->
+      <div class="hero-acts" id="hActs">
+        <!-- Botón principal relleno -->
+        <a href="#s6" class="btn btn-primary"><span>Reservar turno →</span></a>
+        <!-- Botón secundario con estilo contorneado (outline) blanco -->
+        <a href="#s2" class="btn btn-outline-w"><span>Ver servicios</span></a>
+      </div>
+    </div>
+    <!-- Elemento visual decorativo en la parte inferior para indicar al usuario que haga scroll -->
+    <div class="hero-scroll">
+      <div class="scroll-bar"></div>scroll
+    </div>
+  </div>
+
+  <!-- =====================================
+       FRANJA DE INTRODUCCIÓN Y HORARIOS
+  ====================================== -->
+  <!-- Banda o tira de contenido de ancho completo que sigue justo debajo del Hero -->
+  <div class="intro-strip">
+    <!-- Bloque textual descriptivo con clase 'reveal' para la animación de entrada al hacer scroll -->
+    <div class="reveal">
+      <div class="intro-pretag">Bienvenidos</div>
+      <h2 class="intro-heading">Bienvenidos a<br><em>Glow Studio</em></h2>
+      <p class="intro-text">Somos un salón de belleza boutique donde el arte y la dedicación se encuentran. Desde cortes de autor hasta nail art de alta gama, cada servicio está diseñado para que te sientas extraordinaria.</p>
+      <p class="intro-text">Nuestro equipo se forma continuamente para traerte las últimas tendencias internacionales. Aquí no existen los resultados genéricos — cada clienta recibe una experiencia única.</p>
+    </div>
+    <!-- Imagen de ambiente decorativa intercalada, con máscara o borderRadius desde CSS -->
+    <div class="intro-img reveal">
+      <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80&fit=crop" alt="Interior Glow Studio">
+    </div>
+    <!-- Caja lateral remarcada con información útil rápida (Horarios de atención) -->
+    <div class="horarios-box reveal">
+      <div class="hor-title">🕐 Horarios de atención</div>
+      <!-- Filas de datos tabulados usando Flexbox en el CSS (.hor-row con space-between) -->
+      <div class="hor-row"><span class="hor-day">Lunes</span><span class="hor-time">09:00 – 19:00</span></div>
+      <div class="hor-row"><span class="hor-day">Martes</span><span class="hor-time">09:00 – 19:00</span></div>
+      <div class="hor-row"><span class="hor-day">Miércoles</span><span class="hor-time">09:00 – 19:00</span></div>
+      <div class="hor-row"><span class="hor-day">Jueves</span><span class="hor-time">09:00 – 20:00</span></div>
+      <div class="hor-row"><span class="hor-day">Viernes</span><span class="hor-time">09:00 – 20:00</span></div>
+      <div class="hor-row"><span class="hor-day">Sábado</span><span class="hor-time">09:00 – 17:00</span></div>
+      <div class="hor-row"><span class="hor-day">Domingo</span><span class="hor-off">Cerrado</span></div>
+      <!-- Insignia visual (píldora) de estado de apertura moderno -->
+      <div class="status-pill">Abierto ahora</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════
+     SECCIÓN 2: SERVICIOS
+══════════════════════════════════ -->
+<section id="s2">
+  <!-- Etiqueta pequeña (Kicker o Label) sobre el título principal de la sección -->
+  <div class="sec-label reveal">Nuestros servicios</div>
+  <!-- Título principal de la sección con un fragmento en itálica (<i> o <em>) para énfasis estilístico -->
+  <h2 class="sec-title reveal">Arte y <em>precisión</em><br>en cada detalle</h2>
+  <!-- Contenedor Grid (Malla) que agrupa y organiza estructuralmente todas las tarjetas de servicios -->
+  <div class="svc-grid">
+    <!-- Tarjeta individual de servicio. La clase 'reveal' indica que será animada por ScrollTrigger -->
+    <div class="svc-card reveal">
+      <!-- Icono emoji representativo del servicio -->
+      <span class="svc-icon">✂️</span>
+      <!-- Número de ítem de diseño vanguardista (estilo editorial) -->
+      <div class="svc-num">01</div>
+      <div class="svc-name">Peluquería Clásica</div>
+      <p class="svc-text">Cortes de precisión para todos los tipos de cabello. Desde estilos clásicos atemporales hasta looks modernos adaptados a tu personalidad.</p>
+    </div>
+    <!-- Tarjeta de servicio destacada (con la clase .hl para Highlight / resaltado de color) -->
+    <div class="svc-card hl reveal">
+      <span class="svc-icon">🎨</span>
+      <div class="svc-num">02</div>
+      <div class="svc-name">Colorimetría</div>
+      <p class="svc-text">Coloraciones personalizadas con técnicas de vanguardia. Balayage, highlights, tonos vibrantes y transformaciones completas.</p>
+    </div>
+    <!-- Tarjeta estándar -->
+    <div class="svc-card reveal">
+      <span class="svc-icon">🌿</span>
+      <div class="svc-num">03</div>
+      <div class="svc-name">Tratamientos Capilares</div>
+      <p class="svc-text">Hidrataciones profundas, keratinas, botox capilar y rituales de restauración. Devolvemos salud y brillo a tu cabello.</p>
+    </div>
+    <div class="svc-card reveal">
+      <span class="svc-icon">💅</span>
+      <div class="svc-num">04</div>
+      <div class="svc-name">Manos y Pies</div>
+      <p class="svc-text">Manicura y pedicura clásica, gel, semipermanente y nail art de alta gama. Cada set, una obra de arte que refleja tu personalidad.</p>
+    </div>
+    <div class="svc-card reveal">
+      <span class="svc-icon">✨</span>
+      <div class="svc-num">05</div>
+      <div class="svc-name">Maquillaje y Depilación</div>
+      <p class="svc-text">Maquillaje profesional para eventos y novias. Depilación con cera y técnicas avanzadas para resultados duraderos y cuidados.</p>
+    </div>
+    <div class="svc-card reveal">
+      <span class="svc-icon">💆</span>
+      <div class="svc-num">06</div>
+      <div class="svc-name">Masajes y Limpieza</div>
+      <p class="svc-text">Masajes relajantes y descontracturantes, limpiezas faciales profundas. Tu momento de bienestar total en un entorno de lujo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SECCIÓN 3: GALERÍA (PORTFOLIO DE TRABAJOS)
+══════════════════════════════════ -->
+<section id="s3">
+  <!-- Textos de encabezado para presentar la grilla de imágenes -->
+  <div class="sec-label reveal">Trabajos realizados</div>
+  <h2 class="sec-title reveal">Nuestra <em>galería</em></h2>
+  <p class="reveal" style="margin-top:.8rem;font-size:.93rem;color:rgba(26,26,26,.53);max-width:460px;line-height:1.72">Cada imagen es una historia de transformación. Estos son algunos de los trabajos que más nos enorgullecen.</p>
+  
+  <!-- Contenedor Grid asimétrico (tipo mansonry ligero) para agrupar las fotos -->
+  <div class="gallery-grid">
+    <!-- Contenedor de una imagen individual que integra el efecto overlay en CSS -->
+    <div class="gal-item">
+      <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=900&q=80&fit=crop" alt="Colorimetría Balayage">
+      <!-- Capa overlay con el título que aparece solo al posar el cursor por encima (estado :hover) -->
+      <div class="gal-ov"><span class="gal-label">Colorimetría · Balayage</span></div>
+    </div>
+    <div class="gal-item">
+      <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&q=80&fit=crop" alt="Nail Art Premium">
+      <div class="gal-ov"><span class="gal-label">Nail Art · Premium</span></div>
+    </div>
+    <div class="gal-item">
+      <img src="https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=600&q=80&fit=crop" alt="Peinado para evento">
+      <div class="gal-ov"><span class="gal-label">Peinado · Evento</span></div>
+    </div>
+    <div class="gal-item">
+      <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&q=80&fit=crop" alt="Maquillaje artístico">
+      <div class="gal-ov"><span class="gal-label">Maquillaje · Artístico</span></div>
+    </div>
+    <div class="gal-item">
+      <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=900&q=80&fit=crop" alt="Transformación capilar">
+      <div class="gal-ov"><span class="gal-label">Corte · Transformación</span></div>
+    </div>
+    <div class="gal-item">
+      <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80&fit=crop" alt="Limpieza facial">
+      <div class="gal-ov"><span class="gal-label">Limpieza · Facial</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SECCIÓN 4: QUIÉNES SOMOS / FILOSOFÍA
+══════════════════════════════════ -->
+<section id="s4">
+  <!-- Etiqueta de la sección dinámica resaltada con color de la variable CSS --rose-pastel -->
+  <div class="sec-label reveal" style="color:var(--rose-pastel)">Quiénes somos</div>
+  <!-- Título con estilo invertido (blanco) para fondos oscuros aplicando la subclase .sec-title-w -->
+  <h2 class="sec-title sec-title-w reveal">Nuestra <em>filosofía</em></h2>
+  
+  <!-- Contenedor Grid estructurado en dos columnas para texto vs imagen -->
+  <div class="phil-grid">
+    <!-- Columna Izquierda: Información de la filosofía y valores -->
+    <div>
+      <!-- Cita destacada en tamaño de fuente mayor -->
+      <p class="phil-quote reveal">"La belleza no es solo lo que se <strong>ve</strong> — es lo que se <strong>siente</strong>."</p>
+      <!-- Párrafos narrativos sobre la historia y visión del negocio -->
+      <p class="phil-text reveal">En Glow Studio creemos que cada persona merece sentirse extraordinaria. Fundado por Micaela Angeles y Carolina Sergey, nuestro salón nació con una visión clara: crear un espacio donde la belleza y el bienestar convivan en armonía, con dedicación absoluta hacia cada clienta.</p>
+      <p class="phil-text reveal">No somos un salón más. Somos un equipo de artistas comprometidas con la excelencia, en constante formación para ofrecerte lo mejor del mundo de la belleza internacional, con sensibilidad local y toque boutique.</p>
+      
+      <!-- Listado visual en bloque para resaltar los cinco valores primordiales -->
+      <div class="phil-values reveal">
+        <div class="phil-val">Excelencia técnica en cada servicio</div>
+        <div class="phil-val">Productos de primera calidad, siempre</div>
+        <div class="phil-val">Escucha activa y atención personalizada</div>
+        <div class="phil-val">Un espacio donde el tiempo se detiene</div>
+        <div class="phil-val">Resultados que duran más allá del espejo</div>
+      </div>
+      <!-- Enlace estilo botón primario que dirige a la sección de reserva -->
+      <a href="#s6" class="btn btn-primary reveal"><span>Reservar mi experiencia →</span></a>
+    </div>
+    
+    <!-- Columna Derecha: Imagen que ilustra el ambiente del salón -->
+    <div class="phil-img reveal">
+      <img src="https://images.unsplash.com/photo-1560066984-138daaa7b97e?w=700&q=80&fit=crop" alt="Glow Studio ambiente">
+      <!-- Medalla gráfica o badge anclada conceptualmente (absolute position) sobre la imagen -->
+      <div class="phil-badge">✦ Glow Studio — Buenos Aires</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SECCIÓN 5: FUNDADORAS (EL EQUIPO)
+══════════════════════════════════ -->
+<section id="s5">
+  <!-- Subtítulo de sección destacada en color de marca -->
+  <div class="sec-label reveal" style="color:var(--rose-pastel)">El equipo</div>
+  <!-- Título principal con estilo invertido para visibilidad -->
+  <h2 class="sec-title sec-title-w reveal">Las mentes detrás<br>del <em>glow</em></h2>
+  <!-- Malla (Grid) para alinear las tarjetas de los fundadores -->
+  <div class="fnd-grid">
+
+    <!-- Tarjeta de Perfil 1 -->
+    <div class="fnd-card reveal">
+      <div class="fnd-img-wrap">
+        <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=700&q=80&fit=crop&crop=faces" alt="Micaela Angeles">
+        <div class="fnd-grad"></div>
+        <div class="fnd-role">Co-fundadora · Estilista Senior</div>
+      </div>
+      <div class="fnd-body">
+        <div class="fnd-name">Micaela Angeles</div>
+        <div class="fnd-spec">Colorimetría & Transformaciones</div>
+        <p class="fnd-bio">Con más de 10 años de experiencia en colorimetría avanzada, Micaela convierte cada sesión en una obra de arte. Formada en Buenos Aires y Madrid, su expertise en técnicas modernas de color la posiciona como referente del sector en Argentina.</p>
+        <div class="fnd-socials">
+          <a href="#" class="soc-btn fb" target="_blank">
+            <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Facebook</span>
+          </a>
+          <a href="#" class="soc-btn ig" target="_blank">
+            <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> Instagram</span>
+          </a>
+          <a href="https://wa.me/5491100000001" class="soc-btn wa" target="_blank">
+            <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="fnd-card reveal">
+      <div class="fnd-img-wrap">
+        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=700&q=80&fit=crop&crop=faces" alt="Carolina Sergey">
+        <div class="fnd-grad"></div>
+        <div class="fnd-role">Co-fundadora · Nail Artist</div>
+      </div>
+      <div class="fnd-body">
+        <div class="fnd-name">Carolina Sergey</div>
+        <div class="fnd-spec">Nail Art & Diseño Premium</div>
+        <p class="fnd-bio">Carolina es una artista de las uñas con visión única. Su pasión por el diseño la llevó a formarse internacionalmente. Cada set que crea es una pieza de arte miniaturizada que refleja la esencia y personalidad de cada clienta.</p>
+        <div class="fnd-socials">
+          <a href="#" class="soc-btn fb" target="_blank">
+            <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Facebook</span>
+          </a>
+          <a href="#" class="soc-btn ig" target="_blank">
+            <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> Instagram</span>
+          </a>
+          <a href="https://wa.me/5491100000002" class="soc-btn wa" target="_blank">
+            <span><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SECCIÓN 6: INSTRUCCIONES DE RESERVA
+══════════════════════════════════ -->
+<section id="s6">
+  <!-- Encabezamiento explicativo de la sección de agendamiento -->
+  <div class="sec-label reveal">Agendá tu turno</div>
+  <h2 class="sec-title reveal">Reservá tu<br><em>experiencia</em></h2>
+  
+  <!-- Malla dividiendo los pasos de reserva (texto) de la imagen (derecha) -->
+  <div class="rsv-grid">
+    <div>
+      <!-- Descripción general del proceso de reserva -->
+      <p class="rsv-desc reveal">Reservar tu turno en Glow Studio es simple y rápido. Usamos Google Calendar para que puedas ver la disponibilidad en tiempo real y elegir el horario que mejor se adapte a tu agenda.</p>
+      <!-- Contenedor estructural para la lista de pasos -->
+      <div class="rsv-steps reveal">
+        <div class="rsv-step">
+          <div class="rsv-n">1</div>
+          <div class="rsv-t"><strong>Hacé clic en "Reservar turno"</strong>Te redirigimos a nuestra agenda donde podés ver todos los turnos disponibles en tiempo real.</div>
+        </div>
+        <div class="rsv-step">
+          <div class="rsv-n">2</div>
+          <div class="rsv-t"><strong>Elegí el servicio y horario</strong>Seleccioná el día y la hora que más te convenga entre las opciones disponibles.</div>
+        </div>
+        <div class="rsv-step">
+          <div class="rsv-n">3</div>
+          <div class="rsv-t"><strong>Confirmá tu reserva</strong>Recibirás una confirmación automática y un recordatorio el día anterior a tu turno.</div>
+        </div>
+      </div>
+      <a href="https://calendar.google.com" target="_blank" class="btn btn-cal reveal">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Reservar turno →</span>
+      </a>
+      <p class="rsv-note reveal">
+        ✦ También podés escribirnos por WhatsApp para consultas o reservas urgentes.<br>
+        ✦ Turnos con 24 hs de anticipación mínima · Cancelaciones con 12 hs previas.
+      </p>
+    </div>
+    <div class="rsv-img reveal">
+      <img src="https://images.unsplash.com/photo-1470259078422-826894b933aa?w=700&q=80&fit=crop" alt="Reservar turno Glow Studio">
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SECCIÓN 7: CONTACTO E INTEGRACIÓN MAPA
+══════════════════════════════════ -->
+<section id="s7">
+  <!-- Titular de la sección de localización -->
+  <div class="sec-label reveal">Encontranos</div>
+  <h2 class="sec-title reveal">Contacto y <em>ubicación</em></h2>
+  
+  <!-- Estructura dual: Mapa incrustado a la izquierda, detalles de texto a la derecha -->
+  <div class="ct-grid">
+    <!-- Contenedor del Iframe interactivo de Google Maps -->
+    <div class="map-wrap reveal">
+      <!-- Indicador visual superpuesto al mapa (Píldora de ubicación) -->
+      <div class="map-chip">📍 Glow Studio · Buenos Aires</div>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.0168878895164!2d-58.38375512426557!3d-34.60373455739763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4aa9f0a6da5edb%3A0x11bead4e234e558b!2sBuenos%20Aires!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación Glow Studio">
+      </iframe>
+    </div>
+    
+    <!-- Bloque textual con información útil de contacto -->
+    <div class="reveal">
+      <div class="ct-block">
+        <div class="ct-block-title">Información de contacto</div>
+        <div class="ct-item">📍 Av. Corrientes 1234, Buenos Aires, Argentina</div>
+        <div class="ct-item">📞 +54 11 0000-0000</div>
+        <div class="ct-item">✉️ hola@glowstudio.com.ar</div>
+        <div class="ct-item">🕐 Lun–Vie 09:00–20:00 · Sáb 09:00–17:00</div>
+      </div>
+      <div class="ct-block">
+        <div class="ct-block-title">Redes del salón</div>
+        <p style="font-size:.86rem;color:rgba(26,26,26,.53);margin-bottom:1.1rem;line-height:1.65">Seguinos para ver trabajos, novedades y promos exclusivas.</p>
+        <div class="ct-soc-row">
+          <a href="#" class="csoc-btn fb-c" target="_blank">
+            <span><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> @GlowStudioBA</span>
+          </a>
+          <a href="#" class="csoc-btn ig-c" target="_blank">
+            <span><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> @GlowStudio.ar</span>
+          </a>
+        </div>
+      </div>
+      <div class="ct-block">
+        <div class="ct-block-title">WhatsApp directo</div>
+        <div style="display:flex;flex-direction:column;gap:.7rem">
+          <a href="https://wa.me/5491100000001" class="btn btn-wa" style="padding:.72rem 1.5rem;font-size:.78rem" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span>Micaela Angeles</span>
+          </a>
+          <a href="https://wa.me/5491100000002" class="btn btn-wa" style="padding:.72rem 1.5rem;font-size:.78rem" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span>Carolina Sergey</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FOOTER (PIE DE PÁGINA GLOBAL)
+══════════════════════════════════ -->
+<footer>
+  <!-- Mitad superior del footer distribuida en columnas -->
+  <div class="ft-top">
+    <!-- Columna 1: Branding y estado del negocio -->
+    <div>
+      <span class="ft-logo">Glow Studio ✦</span>
+      <p class="ft-tagline">by Serguey Angelis — Belleza con intención, experiencias que perduran.</p>
+      <!-- Indicador dinámico de estado asertivo -->
+      <div class="ft-status">Studio operativo · Abierto hoy</div>
+    </div>
+    
+    <!-- Columna 2: Enlaces directos a los servicios anclados con anclas (#s2) -->
+    <div class="ft-col">
+      <h4>Servicios</h4>
+      <ul>
+        <li><a href="#s2">Peluquería Clásica</a></li>
+        <li><a href="#s2">Colorimetría</a></li>
+        <li><a href="#s2">Tratamientos Capilares</a></li>
+        <li><a href="#s2">Manos y Pies</a></li>
+        <li><a href="#s2">Maquillaje y Depilación</a></li>
+        <li><a href="#s2">Masajes y Limpieza</a></li>
+      </ul>
+    </div>
+    
+    <!-- Columna 3: Enlaces complementarios de jerarquía principal -->
+    <div class="ft-col">
+      <h4>Navegación</h4>
+      <ul>
+        <li><a href="#s1">Inicio</a></li>
+        <li><a href="#s3">Galería</a></li>
+        <li><a href="#s4">Nosotros</a></li>
+        <li><a href="#s5">El equipo</a></li>
+        <li><a href="#s6">Reservar turno</a></li>
+        <li><a href="#s7">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <div class="ft-copy">© 2025 GLOW STUDIO — BY SERGUEY ANGELIS — BUENOS AIRES, AR</div>
+    <div class="ft-soc">
+      <a href="#" class="fsoc" title="Facebook"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <a href="#" class="fsoc" title="Instagram"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+      <a href="https://wa.me/5491100000000" class="fsoc" title="WhatsApp"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
